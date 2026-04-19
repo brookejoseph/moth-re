@@ -1,0 +1,4 @@
+node_modules/
+.moth/
+sample-analysis/
+npm-debug.log*

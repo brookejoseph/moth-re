@@ -1,0 +1,19 @@
+{
+  "name": "moth-re",
+  "version": "0.1.0",
+  "description": "A small Electron and CLI reverse engineering workbench for Mach-O and native binaries.",
+  "type": "module",
+  "main": "./index.js",
+  "bin": {
+    "moth": "./bin/moth.mjs"
+  },
+  "scripts": {
+    "start": "electron .",
+    "cli": "node ./bin/moth.mjs",
+    "smoke": "node ./bin/moth.mjs analyze /bin/ls --out ./sample-analysis --json"
+  },
+  "dependencies": {
+    "electron": "^41.2.1"
+  },
+  "license": "MIT"
+}

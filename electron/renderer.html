@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Moth RE</title>
+    <link rel="stylesheet" href="./renderer.css">
+  </head>
+  <body>
+    <main>
+      <section id="dropzone" class="dropzone">
+        <div>
+          <p class="eyebrow">Moth RE</p>
+          <h1>Drop a binary to inspect its shape.</h1>
+          <p class="lede">Assembly, symbols, Objective-C metadata, strings, and heuristic pseudocode stay local on this machine.</p>
+        </div>
+      </section>
+
+      <section id="workspace" class="workspace hidden">
+        <aside>
+          <div class="meta">
+            <p class="eyebrow">Analysis</p>
+            <h2 id="binaryName">No binary</h2>
+            <p id="analysisPath"></p>
+          </div>
+
+          <label for="searchBox">Search</label>
+          <div class="search-row">
+            <input id="searchBox" type="search" placeholder="class, selector, string, feature">
+            <select id="kindSelect">
+              <option value="all">All</option>
+              <option value="strings">Strings</option>
+              <option value="symbols">Symbols</option>
+              <option value="objc">Objective-C</option>
+              <option value="functions">Functions</option>
+              <option value="asm">Assembly</option>
+            </select>
+          </div>
+
+          <h3>Functions</h3>
+          <div id="functionList" class="list"></div>
+        </aside>
+
+        <section class="detail">
+          <div class="tabs">
+            <button class="tab active" data-tab="pseudocode">Pseudocode</button>
+            <button class="tab" data-tab="assembly">Assembly</button>
+            <button class="tab" data-tab="search">Search Results</button>
+            <button class="tab" data-tab="objc">Objective-C</button>
+            <button class="tab" data-tab="strings">Strings</button>
+          </div>
+          <pre id="detailPane"></pre>
+        </section>
+      </section>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
