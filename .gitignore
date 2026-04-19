@@ -1,4 +1,5 @@
 node_modules/
 .moth/
 sample-analysis/
+*-analysis/
 npm-debug.log*

@@ -30,7 +30,12 @@ dropzone.addEventListener("drop", async (event) => {
   dropzone.classList.remove("dragging");
   const file = event.dataTransfer.files[0];
   if (!file) return;
-  await analyze(file.path);
+  const filePath = window.moth?.pathForFile?.(file) ?? file.path;
+  if (!filePath) {
+    setBusy("Analysis failed: Electron did not provide a file path for that drop.");
+    return;
+  }
+  await analyze(filePath);
 });
 
 searchBox.addEventListener("input", debounce(runSearch, 180));
@@ -47,12 +52,15 @@ for (const tab of tabs) {
 async function analyze(binaryPath) {
   setBusy(`Analyzing ${binaryPath}...`);
   try {
+    if (!window.moth?.analyze) {
+      throw new Error("The Electron preload API is unavailable. Restart the app and try again.");
+    }
     state.analysis = await window.moth.analyze(binaryPath);
     state.dbPath = state.analysis.index.outDir;
     state.selectedFunction = state.analysis.functions[0] ?? null;
     state.searchResults = [];
-    dropzone.classList.add("hidden");
     workspace.classList.remove("hidden");
+    setDropReady();
     renderAnalysis();
   } catch (error) {
     setBusy(`Analysis failed:\n${error.message}`);
@@ -84,8 +92,10 @@ async function selectFunction(name) {
 
 function renderAnalysis() {
   const index = state.analysis.index;
-  binaryName.textContent = index.binary.split("/").pop();
-  analysisPath.textContent = index.outDir;
+  binaryName.textContent = (index.inputPath ?? index.binary).split("/").pop();
+  analysisPath.textContent = index.bundle
+    ? `Executable: ${index.binary}\nAnalysis: ${index.outDir}`
+    : index.outDir;
   functionList.innerHTML = "";
 
   for (const fn of state.analysis.functions) {
@@ -159,8 +169,14 @@ function summarizeFunction(fn) {
 function setBusy(message) {
   dropzone.classList.remove("hidden");
   workspace.classList.add("hidden");
-  dropzone.querySelector("h1").textContent = message;
-  dropzone.querySelector(".lede").textContent = "Large binaries can take a little while.";
+  dropzone.querySelector("h2").textContent = message;
+  dropzone.querySelector("p:last-child").textContent = "Large binaries can take a little while.";
+}
+
+function setDropReady() {
+  dropzone.querySelector(".drop-kicker").textContent = "Drop another binary";
+  dropzone.querySelector("h2").textContent = "Drag your file into this box";
+  dropzone.querySelector("p:last-child").textContent = "Mach-O apps, command-line tools, dylibs, and other native binaries.";
 }
 
 function debounce(fn, delay) {

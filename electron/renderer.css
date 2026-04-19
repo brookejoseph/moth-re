@@ -1,14 +1,15 @@
 :root {
-  color-scheme: dark;
-  --bg: #101214;
-  --panel: #181c20;
-  --panel-2: #20262b;
-  --text: #f2f5f2;
-  --muted: #a9b4ac;
-  --accent: #64d39a;
-  --accent-2: #f1c84b;
-  --danger: #ff6b6b;
-  --border: #333b42;
+  color-scheme: light;
+  --bg: #ffffff;
+  --panel: #fff7fb;
+  --panel-2: #ffe8f4;
+  --text: #d81b75;
+  --text-strong: #a90052;
+  --muted: #b84a7c;
+  --accent: #ff4fa3;
+  --accent-2: #ff8fc7;
+  --border: #ffc2df;
+  --shadow: rgba(216, 27, 117, 0.14);
 }
 
 * {
@@ -24,52 +25,82 @@ body {
 
 main {
   min-height: 100vh;
+  background: #ffffff;
 }
 
-.dropzone {
-  min-height: 100vh;
+.intro {
   display: grid;
-  align-items: center;
-  padding: 48px;
-  border: 2px dashed transparent;
-  background:
-    linear-gradient(135deg, rgba(100, 211, 154, 0.12), transparent 34%),
-    linear-gradient(180deg, #101214, #15191c);
+  grid-template-columns: minmax(280px, 760px);
+  gap: 22px;
+  align-content: start;
+  padding: 34px;
+  border-bottom: 1px solid var(--border);
+  background: #ffffff;
 }
 
-.dropzone.dragging {
-  border-color: var(--accent);
-  background: #17201b;
-}
-
-.dropzone h1 {
-  max-width: 760px;
+.intro-copy h1 {
+  max-width: 720px;
   margin: 0;
-  font-size: 64px;
-  line-height: 1;
+  color: var(--text-strong);
+  font-size: 44px;
+  line-height: 1.05;
   letter-spacing: 0;
 }
 
 .lede {
-  max-width: 680px;
+  max-width: 640px;
   color: var(--muted);
-  font-size: 20px;
-  line-height: 1.55;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
-.eyebrow {
+.eyebrow,
+.drop-kicker {
   color: var(--accent);
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0;
   text-transform: uppercase;
 }
 
+.dropzone {
+  width: min(100%, 520px);
+  min-height: 190px;
+  display: grid;
+  align-content: center;
+  padding: 24px;
+  border: 2px dashed var(--accent);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 16px 48px var(--shadow);
+}
+
+.dropzone.dragging {
+  background: var(--panel-2);
+  border-color: var(--text-strong);
+  transform: translateY(-1px);
+}
+
+.dropzone h2 {
+  margin: 0 0 8px;
+  color: var(--text-strong);
+  font-size: 24px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.dropzone p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .workspace {
-  min-height: 100vh;
+  min-height: calc(100vh - 259px);
   display: grid;
   grid-template-columns: 380px 1fr;
+  background: #ffffff;
 }
 
 .hidden {
@@ -89,14 +120,15 @@ aside {
 
 h2 {
   margin: 0 0 8px;
+  color: var(--text-strong);
   font-size: 22px;
   overflow-wrap: anywhere;
 }
 
 h3 {
   margin: 28px 0 12px;
-  font-size: 14px;
   color: var(--muted);
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -125,7 +157,7 @@ select,
 button {
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: var(--panel-2);
+  background: #ffffff;
   color: var(--text);
   font: inherit;
 }
@@ -134,6 +166,10 @@ input,
 select {
   min-height: 38px;
   padding: 8px 10px;
+}
+
+input::placeholder {
+  color: #df81ad;
 }
 
 button {
@@ -155,14 +191,18 @@ button {
 
 .function-row:hover,
 .function-row.active {
-  background: var(--panel-2);
-  border-color: var(--border);
+  background: #ffffff;
+  border-color: var(--accent-2);
 }
 
 .function-row strong,
 .function-row span {
   display: block;
   overflow-wrap: anywhere;
+}
+
+.function-row strong {
+  color: var(--text-strong);
 }
 
 .function-row span {
@@ -181,7 +221,7 @@ button {
   gap: 8px;
   padding: 14px 18px;
   border-bottom: 1px solid var(--border);
-  background: #121619;
+  background: #ffffff;
 }
 
 .tab {
@@ -190,7 +230,8 @@ button {
 
 .tab.active {
   border-color: var(--accent);
-  color: var(--accent);
+  background: var(--panel-2);
+  color: var(--text-strong);
 }
 
 pre {
@@ -199,16 +240,19 @@ pre {
   overflow: auto;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  color: var(--text-strong);
+  background: #ffffff;
   font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 @media (max-width: 920px) {
-  .dropzone {
-    padding: 28px;
+  .intro {
+    grid-template-columns: 1fr;
+    padding: 24px;
   }
 
-  .dropzone h1 {
-    font-size: 42px;
+  .intro-copy h1 {
+    font-size: 34px;
   }
 
   .workspace {
